@@ -18,11 +18,11 @@ export class App extends Component {
   };
 
   toggleModal = e => {
-    this.setState(({ showModal }) => ({ showModal: !showModal }));
-
-    if (!this.state.showModal) {
-      this.setState({ src: e.target.dataset.src, alt: e.target.alt });
-    }
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+      src: !showModal? e.target.dataset.src : null,
+      alt: !showModal? e.target.alt : null
+    }));
   };
 
   submitForm = e => {
@@ -45,6 +45,7 @@ export class App extends Component {
 
   render() {
     const { showModal, moreVisible, searchQuery, page, src, alt } = this.state;
+    console.log(src)
     return (
       <div className={s.container}>
         <Searchbar onSubmit={this.submitForm} />
@@ -63,6 +64,7 @@ export class App extends Component {
           </Modal>
         )}
         <ToastContainer />
+        <div id="modalRoot"></div>
       </div>
     );
   }

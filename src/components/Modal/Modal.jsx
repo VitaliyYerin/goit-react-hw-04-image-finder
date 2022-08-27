@@ -3,10 +3,15 @@ import { Component } from 'react';
 import { createPortal } from 'react-dom';
 import s from './Modal.module.css';
 
-const modalRoot = document.querySelector('#modalRoot');
-
 class Modal extends Component {
   state = {};
+
+  constructor(props) {
+    super(props);
+
+    this.modalRoot = document.getElementById('modalRoot');
+  }
+
 
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyEscape);
@@ -33,7 +38,7 @@ class Modal extends Component {
       <div className={s.overlay} onClick={this.handleBackdropClick}>
         <div className={s.modalContent}>{this.props.children}</div>
       </div>,
-      modalRoot
+      this.modalRoot
     );
   }
 }

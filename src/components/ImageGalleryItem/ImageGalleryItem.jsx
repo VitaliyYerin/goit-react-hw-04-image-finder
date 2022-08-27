@@ -5,7 +5,7 @@ const ImageGalleryItem = props => {
   const { hit, onClick } = props;
 
   return (
-    <li className={s.listItem} id={hit.id} onClick={onClick}>
+    <div className={s.listItem} id={hit.id} onClick={onClick}>
       <img
         className={s.listItemImg}
         src={hit.webformatURL}
@@ -13,7 +13,7 @@ const ImageGalleryItem = props => {
         data-src={hit.largeImageURL}
         loading="lazy"
       />
-    </li>
+    </div>
   );
 };
 

@@ -20,8 +20,8 @@ class SearchForm extends Component {
     return (
       <form className={s.form} onSubmit={this.handleSubmit}>
         <button className={s.btn} type="submit" onSubmit={this.handleSubmit}>
-          <FaSearch className={s.btnLabel} size={30}></FaSearch>
-          <span>Search</span>
+          <FaSearch size={30}></FaSearch>
+          <span className={s.btnLabel}>Search</span>
         </button>
 
         <input
