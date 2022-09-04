@@ -1,25 +1,29 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import s from './SearchForm.module.css';
 import { FaSearch } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
-class SearchForm extends Component {
-  state = { value: '' };
+const SearchForm = ({ onSubmit }) => {
+  const [query, setQuery] = useState('');
 
-  handleChange = e => {
-    const { value } = e.currentTarget;
-    this.setState({ value: value });
+  const handleInputChange = e => {
+    setQuery(e.target.value.toLowerCase());
   };
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state);
+    if (query.trim() === '') {
+      toast.error('Enter what images you want !');
+      return;
+    }
+    onSubmit(query);
   };
 
-  render() {
+
     return (
-      <form className={s.form} onSubmit={this.handleSubmit}>
-        <button className={s.btn} type="submit" onSubmit={this.handleSubmit}>
+      <form className={s.form} onSubmit={handleSubmit}>
+        <button className={s.btn} type="submit" onSubmit={handleSubmit}>
           <FaSearch size={30}></FaSearch>
           <span className={s.btnLabel}>Search</span>
         </button>
@@ -27,15 +31,14 @@ class SearchForm extends Component {
         <input
           type="text"
           name="query"
-          value={this.state.value}
-          onChange={this.handleChange}
+          value={query}
+          onChange={handleInputChange}
           autoComplete="off"
           autoFocus
           placeholder="Search images and photos"
         />
       </form>
     );
-  }
 }
 
 SearchForm.propTypes = {
