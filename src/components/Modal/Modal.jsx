@@ -1,51 +1,42 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import s from './Modal.module.css';
 
-class Modal extends Component {
-  state = {};
+const modalRoot = document.querySelector('#modalRoot');
 
-  constructor(props) {
-    super(props);
+const Modal = ({ onClose, selectedImg }) => {
+  useEffect(() => {
+    const handleKeyEscape = e => {
+      if (e.code === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyEscape);
+    return () => {
+      window.removeEventListener('keydown', handleKeyEscape);
+    };
+  }, [onClose]);
 
-    this.modalRoot = document.getElementById('modalRoot');
-  }
-
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyEscape);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyEscape);
-  }
-
-  handleKeyEscape = e => {
-    if (e.code === 'Escape') {
-      this.props.onClose();
-    }
-  };
-
-  handleBackdropClick = e => {
+  const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
-      this.props.onClose();
+      onClose();
     }
   };
 
-  render() {
-    return createPortal(
-      <div className={s.overlay} onClick={this.handleBackdropClick}>
-        <div className={s.modalContent}>{this.props.children}</div>
-      </div>,
-      this.modalRoot
-    );
-  }
-}
+  return createPortal(
+    <div className={s.overlay} onClick={handleBackdropClick}>
+      <div className={s.modalContent}>
+        <img src={selectedImg} alt="SelectedImage" />
+      </div>
+    </div>,
+    modalRoot
+  );
+};
 
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  children: PropTypes.node,
+  selectedImg: PropTypes.string.isRequired,
 };
 
 export default Modal;
