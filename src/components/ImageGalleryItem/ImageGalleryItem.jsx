@@ -1,25 +1,17 @@
 import s from './ImageGalleryItem.module.css'
 import PropTypes from 'prop-types';
 
-const ImageGalleryItem = props => {
-  const { hit, onClick } = props;
-
+const ImageGalleryItem = ({ smallImgURL, id }) => {
   return (
-    <div className={s.listItem} id={hit.id} onClick={onClick}>
-      <img
-        className={s.listItemImg}
-        src={hit.webformatURL}
-        alt={hit.tags}
-        data-src={hit.largeImageURL}
-        loading="lazy"
-      />
+    <div className={s.listItem}>
+      <img className={s.listItemImg} src={smallImgURL} alt={id} loading="lazy" />
     </div>
   );
 };
 
 ImageGalleryItem.propTypes = {
-  hit: PropTypes.shape().isRequired,
-  onClick: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+  smallImgURL: PropTypes.string.isRequired,
 };
 
 export default ImageGalleryItem;

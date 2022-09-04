@@ -2,21 +2,32 @@ import ImageGalleryItem from 'components/ImageGalleryItem';
 import PropTypes from 'prop-types';
 import s from './ImageGallery.module.css';
 
-const ImageGallery = props => {
-  const { hits, onClick } = props;
-
+const ImageGallery = ({ images, toggleModal }) => {
   return (
-    <ul className={s.gallery}>
-      {hits.map(hit => {
-        return <ImageGalleryItem key={hit.id} hit={hit} onClick={onClick} />;
-      })}
-    </ul>
+    <>
+      <ul className={s.gallery} onClick={toggleModal}>
+        {images.map(image => {
+          return (
+            <ImageGalleryItem
+              key={image.id}
+              id={image.id}
+              smallImgURL={image.webformatURL}
+            />
+          );
+        })}
+      </ul>
+    </>
   );
 };
 
 ImageGallery.propTypes = {
-  hits: PropTypes.arrayOf(PropTypes.shape).isRequired,
-  onClick: PropTypes.func.isRequired,
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default ImageGallery;
